@@ -1,0 +1,207 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Olist E-Commerce API Documentation",
+        "version": "1.0.0",
+        "description": "API documentation for managing Olist E-Commerce data"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Olist E-Commerce local server"
+        }
+    ],
+    "paths": {
+        "/order_items": {
+            "get": {
+                "tags": [
+                    "Order Items"
+                ],
+                "summary": "List all order items",
+                "description": "Get a list of order items",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to show (default is 20)",
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Result page offset",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort by `price` or `shipping_limit_date` (default)",
+                        "schema": {
+                            "type": "string",
+                            "default": "shipping_limit_date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of order items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/OrderItem"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "limit": {
+                                            "type": "integer"
+                                        },
+                                        "offset": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTP Basic Auth": []
+                    }
+                ]
+            }
+        },
+        "/order_items/{id}": {
+            "delete": {
+                "tags": [
+                    "Order Items"
+                ],
+                "summary": "Delete an order item by ID",
+                "description": "Delete an order item by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order item successfully deleted"
+                    },
+                    "404": {
+                        "description": "Order item not found"
+                    }
+                },
+                "security": [
+                    {
+                        "HTTP Basic Auth": []
+                    }
+                ]
+            }
+        },
+        "/account": {
+            "put": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Update seller's city or/and state",
+                "description": "Update seller's city or/and state",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Seller's city and state successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTP Basic Auth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "OrderItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID of the order item"
+                    },
+                    "product_id": {
+                        "type": "string",
+                        "description": "ID of the product"
+                    },
+                    "product_category": {
+                        "type": "string",
+                        "description": "Category of the product"
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the order item"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Shipping limit date of the order item"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "HTTP Basic Auth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    }
+}
