@@ -1,4 +1,5 @@
 const { errorHandler } = require('../utils/errorHandler')
+const { ObjectId } = require('mongodb')
 
 const listOrderItems = async (req, res, next) => {
   try {
@@ -64,18 +65,25 @@ const deleteOrderItemById = async (req, res, next) => {
     const sellerId = req.auth.user
     const orderItemId = req.params.id
 
-    const orderItemsCollection = req.app.locals.db.collection('order_items')
+    if (!ObjectId.isValid(orderItemId)) {
+      return next(errorHandler(400, 'invalid parameter'))
+    }
+    const newOrderItemId = new ObjectId(orderItemId)
+
+    console.log(sellerId, newOrderItemId)
+
+    const orderItemsCollection = req.app.locals.db.collection('order-items')
 
     const result = await orderItemsCollection.findOneAndDelete({
       seller_id: sellerId,
-      _id: orderItemId
+      _id: newOrderItemId
     })
 
-    if (!result.value) {
+    if (!result) {
       return next(errorHandler(404, 'Order item not found'))
     }
 
-    res.json({ message: 'Order item deleted successfully' })
+    res.json({ message: 'Order item deleted successfully', result })
   } catch (error) {
     next(error)
   }
