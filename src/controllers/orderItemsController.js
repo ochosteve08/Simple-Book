@@ -1,4 +1,3 @@
-const { db } = require('../index')
 const { errorHandler } = require('../utils/errorHandler')
 
 const listOrderItems = async (req, res, next) => {
@@ -10,18 +9,20 @@ const listOrderItems = async (req, res, next) => {
     const sort = req.query.sort
     const skip = (offset - 1) * limit
 
-    const orderItemsCollection = db.collection('order_items')
-    const productsCollection = db.collection('products')
+    const orderItemsCollection = req.app.locals.db.collection('order-items')
+    const productsCollection = req.app.locals.db.collection('products')
 
     const query = { seller_id: sellerId }
+
     const cursor = orderItemsCollection.find(query)
 
     // Sort the results if sort parameter is provided
+
     if (sort) {
       cursor.sort({ [sort]: 1 })
     }
 
-    const total = await cursor.count()
+    const total = await orderItemsCollection.countDocuments(query)
     const result = await cursor
       .skip(skip)
       .limit(limit)
@@ -63,7 +64,7 @@ const deleteOrderItemById = async (req, res, next) => {
     const sellerId = req.auth.user
     const orderItemId = req.params.id
 
-    const orderItemsCollection = db.collection('order_items')
+    const orderItemsCollection = req.app.locals.db.collection('order_items')
 
     const result = await orderItemsCollection.findOneAndDelete({
       seller_id: sellerId,
