@@ -1,4 +1,3 @@
-const { db } = require('../index')
 const { errorHandler } = require('../utils/errorHandler')
 
 const updateAccount = async (req, res, next) => {
@@ -12,7 +11,7 @@ const updateAccount = async (req, res, next) => {
       )
     }
 
-    const sellersCollection = db.collection('sellers')
+    const sellersCollection = req.app.locals.db.collection('sellers')
 
     const currentSeller = await sellersCollection.findOne({
       seller_id: sellerId
@@ -35,9 +34,9 @@ const updateAccount = async (req, res, next) => {
     res.json({
       message: 'Seller information updated successfully',
       updatedSeller: {
-        seller_id: updatedSeller.value.seller_id,
-        city: updatedSeller.value.city,
-        state: updatedSeller.value.state
+        seller_id: updatedSeller.seller_id,
+        city: updatedSeller.city,
+        state: updatedSeller.state
       }
     })
   } catch (error) {
