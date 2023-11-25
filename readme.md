@@ -1,4 +1,3 @@
-
 # Olist E-Commerce API
 
 This Node.js API provides access to the Olist E-Commerce dataset stored in a MongoDB database. Authentication is done via HTTP Basic using the `seller_id` and `seller_zip_code_prefix` from the `olist_sellers_dataset` collection as the username and password, respectively.
@@ -89,19 +88,19 @@ Run tests using:
 npm test
 ```
 
-## Linting
+## Documentation
 
-Lint the code with:
+### Swagger Documentation
 
-```bash
-npm run lint
-```
+Access the Swagger documentation for the API by visiting [http://localhost:3000/docs](http://localhost:3000/docs). This interactive documentation provides details about available endpoints, request parameters, and response formats.
 
-## Contributing
+You can also download the Swagger JSON file directly from [http://localhost:3000/docs.json](http://localhost:3000/docs.json).
 
-Feel free to open issues and pull requests.
+### Postman Documentation
 
-## License
+Explore the Postman documentation to interact with the API. Visit the [Postman Documentation](https://documenter.getpostman.com/view/25943148/2s9YeD8t2N) to find detailed information about the API requests, examples, and usage.
+
+License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
