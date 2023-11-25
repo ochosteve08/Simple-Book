@@ -1,19 +1,19 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient } = require('mongodb')
 
-let dbConnect;
+let dbConnect
 module.exports = {
   ConnectToDb: (cb) => {
-    console.info("Starting server");
-      MongoClient.connect(process.env.MONGO_URL)
+    console.info('Starting server')
+    MongoClient.connect(process.env.MONGO_URL)
       .then((client) => {
-        dbConnect = client.db();
-        console.info("Connected to MongoDB");
-        return cb();
+        dbConnect = client.db()
+        console.info('Connected to MongoDB')
+        return cb()
       })
       .catch((err) => {
-        console.error(err);
-        cb(err);
-      });
+        console.error(err)
+        cb(err)
+      })
   },
-  getDb: () => dbConnect,
-};
+  getDb: () => dbConnect
+}
