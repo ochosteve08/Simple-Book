@@ -6,8 +6,8 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (request, response) => {
-  response.json({ message: "this is working fine" });
-  console.log("GET request");
+  response.json({ message: "endpoint is working" });
+  
 });
 
 let db;
