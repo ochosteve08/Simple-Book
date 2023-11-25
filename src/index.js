@@ -1,6 +1,8 @@
 const express = require("express");
 require("dotenv").config();
 const { ConnectToDb, getDb } = require("./utils/db");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJson = require("./doc/swagger.json");
 
 const app = express();
 app.use(express.json());
@@ -8,6 +10,13 @@ app.use(express.json());
 app.get("/", (request, response) => {
   response.json({ message: "endpoint is working" });
   
+});
+
+
+app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerJson));
+app.get("/api/v1/docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerJson);
 });
 
 let db;
