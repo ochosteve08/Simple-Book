@@ -1,14 +1,14 @@
+// basicAuth.js
 const basicAuth = require('express-basic-auth')
 
-const { db } = require('../index')
-
-const basicAuthMiddleware = basicAuth({
-  authorizeAsync: true,
-  unauthorizedResponse: 'Unauthorized Access',
-  challenge: true,
-  authorizer: async (username, password, cb) => {
+const basicAuthMiddleware = (req, res, next) => {
+  const authorizer = async (username, password, cb) => {
     try {
-      const sellersCollection = db.collection('sellers')
+      if (req.app.locals.db) {
+        return cb(null, true)
+      }
+
+      const sellersCollection = req.app.locals.db.collection('sellers')
       const seller = await sellersCollection.findOne({ seller_id: username })
 
       if (!seller || seller.seller_zip_code_prefix !== password) {
@@ -20,14 +20,15 @@ const basicAuthMiddleware = basicAuth({
       return cb(error)
     }
   }
-})
 
-module.exports = (req, res, next) => {
-  basicAuthMiddleware(req, res, (err) => {
-    if (err) {
-      return next(err)
-    }
-
-    next()
+  const middleware = basicAuth({
+    authorizeAsync: true,
+    unauthorizedResponse: 'Unauthorized Access',
+    challenge: true,
+    authorizer
   })
+
+  middleware(req, res, next)
 }
+
+module.exports = basicAuthMiddleware

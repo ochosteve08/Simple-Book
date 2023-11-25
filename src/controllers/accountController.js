@@ -48,5 +48,3 @@ const updateAccount = async (req, res, next) => {
 module.exports = {
   updateAccount
 }
-
-module.exports = { updateAccount }

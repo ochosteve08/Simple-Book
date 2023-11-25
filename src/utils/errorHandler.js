@@ -1,6 +1,11 @@
-export const errorHandler = (statusCode, message) => {
+// errorHandler.js
+const errorHandler = (statusCode, message) => {
   const error = new Error(message)
   error.statusCode = statusCode
   error.message = message
   return error
+}
+
+module.exports = {
+  errorHandler
 }
