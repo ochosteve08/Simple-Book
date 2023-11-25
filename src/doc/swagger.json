@@ -117,7 +117,7 @@
             }
         },
         "/account": {
-            "put": {
+            "patch": {
                 "tags": [
                     "Account"
                 ],

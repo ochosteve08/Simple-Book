@@ -3,6 +3,6 @@ const accountController = require('../controllers/accountController')
 
 const router = express.Router()
 
-router.put('/', accountController.updateAccount)
+router.patch('/', accountController.updateAccount)
 
 module.exports = router

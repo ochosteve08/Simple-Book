@@ -46,3 +46,4 @@ ConnectToDb((err) => {
     console.error('Error connecting to MongoDB:', err)
   }
 })
+module.exports = app
