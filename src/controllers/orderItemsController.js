@@ -56,10 +56,6 @@ const listOrderItems = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  listOrderItems
-}
-
 const deleteOrderItemById = async (req, res, next) => {
   try {
     const sellerId = req.auth.user

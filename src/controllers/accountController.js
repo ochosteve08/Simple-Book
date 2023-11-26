@@ -30,7 +30,9 @@ const updateAccount = async (req, res, next) => {
       { $set: updatedFields },
       { returnDocument: 'after' }
     )
-
+    if (!updatedSeller) {
+      return next(errorHandler(404, 'Seller not found'))
+    }
     res.json({
       message: 'Seller information updated successfully',
       updatedSeller: {
