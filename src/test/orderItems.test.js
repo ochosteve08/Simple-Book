@@ -52,6 +52,7 @@ describe('listOrderItems', () => {
   it('should handle errors properly', async () => {
     let errorOccurred = false
     const next = (error) => {
+      console.log(error)
       errorOccurred = true
     }
 
