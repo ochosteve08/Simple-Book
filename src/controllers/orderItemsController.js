@@ -44,6 +44,7 @@ const listOrderItems = async (req, res, next) => {
         }
       })
     )
+    console.log('transformedResult:', transformedResult)
 
     res.json({
       data: transformedResult,
