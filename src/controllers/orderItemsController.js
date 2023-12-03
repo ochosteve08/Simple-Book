@@ -9,7 +9,7 @@ const listOrderItems = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 20
     const sort = req.query.sort
     const skip = (offset - 1) * limit
-
+    console.log('Input parameters:', req.auth, req.query, req.app.locals.db)
     const orderItemsCollection = req.app.locals.db.collection('order-items')
     const productsCollection = req.app.locals.db.collection('products')
 

@@ -7,7 +7,6 @@ const app = require('../index')
 let mongoClient
 let db
 
-// Mock data for order items and products
 const mockOrderItems = [
   {
     order_item_id: 1,
@@ -34,7 +33,7 @@ const mockProducts = [
   }
 ]
 
-beforeAll(async () => {
+beforeEach(async () => {
   const mongoUri = process.env.MONGO_URL
   mongoClient = new MongoClient(mongoUri)
   await mongoClient.connect()
@@ -53,14 +52,26 @@ beforeAll(async () => {
   app.locals.db = db
 })
 
-afterAll(async () => {
-  // Close the MongoDB connection
+afterEach(async () => {
   await mongoClient.close()
 })
 
+// const mockReq = {
+//   auth: {
+//     user: 'mockSellerId'
+//   },
+//   query: {},
+//   app: {
+//     locals: {
+//       db: null
+//     }
+//   }
+// }
 const mockReq = {
-  auth: {
-    user: 'mockSellerId'
+  headers: {
+    authorization:
+      'Basic ' +
+      Buffer.from('mockSellerId:mockSellerZipCode').toString('base64')
   },
   query: {},
   app: {
@@ -90,7 +101,6 @@ describe('listOrderItems', () => {
       expect(result).to.have.property('data').that.is.an('array')
       expect(result).to.have.property('total').that.is.a('number')
 
-      // Assuming there's at least one item in the result
       expect(result.data[0]).to.have.property('id').that.is.a('number')
       expect(result.data[0]).to.have.property('product_id').that.is.a('string')
       expect(result.data[0])
@@ -99,7 +109,6 @@ describe('listOrderItems', () => {
       expect(result.data[0]).to.have.property('price').that.is.a('number')
       expect(result.data[0]).to.have.property('date').that.is.a('string')
     } else {
-      // Handle the case where result is undefined
       console.error(`Result is ${result}`)
     }
   })
